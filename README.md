@@ -1,7 +1,7 @@
 # CALclock
 
 [![GitHub Discussions](https://img.shields.io/github/discussions/sandervonk/CALclock)](https://github.com/sandervonk/CALclock/discussions)
-![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/sandervonk/CALclock?include_prereleases&logo=DocuSign&logoColor=%23fff)
+![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/sandervonk/CALclock)
 ![GitHub package.json dependency version (prod)](https://img.shields.io/github/package-json/dependency-version/cvonk/CALalarm/esp-idf)
 ![GitHub](https://img.shields.io/github/license/sandervonk/CALclock)
 
