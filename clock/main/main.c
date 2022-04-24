@@ -1,11 +1,23 @@
 /**
  * @brief Clock Calendar using ESP32
  *
- * CLOSED SOURCE, NOT FOR PUBLIC RELEASE
- * (c) Copyright 2020, Sander and Coert Vonk
- * All rights reserved. Use of copyright notice does not imply publication.
- * All text above must be included in any redistribution
-**/
+ * © Copyright 2016, 2022, Sander and Coert Vonk
+ * 
+ * This file is part of CALclock.
+ * 
+ * CALclock is free software: you can redistribute it and/or modify it under the terms of
+ * the GNU General Public License as published by the Free Software Foundation, either
+ * version 3 of the License, or (at your option) any later version.
+ * 
+ * CALclock is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License along with CALclock. 
+ * If not, see <https://www.gnu.org/licenses/>.
+ * 
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ **/
 
 #include <esp_system.h>
 #include <esp_wifi.h>
@@ -20,13 +32,11 @@
 #include "ota_update_task.h"
 #include "wifi_connect.h"
 #include "factory_reset_task.h"
+#include "display_task.h"
 
 #include "httpd/httpd.h"
 #include "http/https_client_task.h"
 #include "ipc/ipc.h"
-
-#include "display_task.h"
-#include "mqtt_task.h"
 
 #define ARRAYSIZE(a) (sizeof(a) / sizeof(*(a)))
 #define ALIGN( type ) __attribute__((aligned( __alignof__( type ) )))
@@ -183,10 +193,8 @@ app_main()
     static ipc_t ipc;
     ipc.toClientQ = xQueueCreate(2, sizeof(toClientMsg_t));
     ipc.toDisplayQ = xQueueCreate(2, sizeof(toDisplayMsg_t));
-    ipc.toMqttQ = xQueueCreate(2, sizeof(toMqttMsg_t));
     ipc.dev.connectCnt.wifi = 0;
-    ipc.dev.connectCnt.mqtt = 0;
-    assert(ipc.toDisplayQ && ipc.toClientQ && ipc.toMqttQ);
+    assert(ipc.toDisplayQ && ipc.toClientQ);
 
     _connect2wifi_and_start_httpd(&ipc);
 
@@ -195,5 +203,4 @@ app_main()
     xTaskCreate(&ota_update_task, "ota_update_task", 4096, "clock", 5, NULL);
     xTaskCreate(&display_task, "display_task", 4096, &ipc, 5, NULL);
     xTaskCreate(&https_client_task, "https_client_task", 4096, &ipc, 5, NULL);
-    xTaskCreate(&mqtt_task, "mqtt_task", 2*4096, &ipc, 5, NULL);
 }
