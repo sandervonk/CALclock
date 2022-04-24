@@ -73,7 +73,7 @@ To create the Webapp:
       - who has access = `anyone`, even anonymous (make sure you understand what the script does!)
       - You will get a warning, because the app has not been verified by Google
       - Once you clock `Deploy`, it presents you with two URLs
-          - one that ends in `/exec`, the published version, based on the version you chose.
+          - one that ends in `/exec`, the published version, based on the version you choose.
           - one that ends in `/dev`, the most recent saved code, intended for quick testing during development.
       - Copy the `main/Kconfig.example` to `main/Kconfig` and copy the URL that ends in `/exec` to `main/Kconfig` under `CLOCK_GAS_CALENDAR_URL`.
 

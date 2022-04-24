@@ -78,7 +78,7 @@ To create the Web app:
   - Copy and paste the code from `script\Code.gs`
   - Add the `Google Calendar API` service .
   - Select the function `test` and click `Debug`. This will ask for permissions. Don't expect output.
-  - Click `Deploy` and chose `New deployment`, chose
+  - Click `Deploy` and chose `New deployment`, choose
     - Service tye = `Web app`
     - Execute as = `Me`
     - Who has access = `Anyone`, make sure you understand what the script does!
@@ -102,7 +102,7 @@ Open the URL in a web browser. You should get a reply like
 }
 ```
 
-Now, copy the `clock/main/Kconfig.example` to `clock/main/Kconfig` and paste the URL that ends in `/exec` to `clock/main/Kconfig` under `CLOCK_GAS_CALENDAR_URL`.
+Now, copy the `clock/main/Kconfig.example` to `clock/main/Kconfig` and paste the URL that ends in `/exec` to `clock/main/Kconfig` under `CALCLOCK_GAS_CALENDAR_URL`.
 
 As we see in the next sections, the ESP32 does a `HTTP GET` on this URL. That way it retrieves a list of upcoming events from your calendar, and update the LEDs accordingly.
 
@@ -225,18 +225,3 @@ where `#` is a the MQTT wildcard character.
 ## Feedback
 
 We love to hear from you. Please use the Github discussions to provide feedback.
-
-
-
-
-## OLD REMOVE !!
-
-((OLD To give the script the necessary permissions, we need to switch it from /default/ GCP (Apps Script–managed Cloud Platform project) to a /standard/ GCP project. Then give it permissions to the Calendar API and access your domain.
-  - in [Google Script](https://script.google.com/) > Resources > Cloud Platform project > associate with (new) Cloud project number
-      - it will ask you to configure an OAuth consent screen
-  - in Google Cloud Console for that (new) project > OAuth consent screen
-      - select `External`
-      - add scope = Google Calendar API ()../auth/calendar.readonly)
-      - press `Save` (not submit)
-  - In that same Google Clouse Console UI
-      - on the left, domain verification > add/allow domain > add the external domain for your ESP32.))
