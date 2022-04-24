@@ -4,9 +4,9 @@
 ![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/sandervonk/CALclock?include_prereleases&logo=DocuSign&logoColor=%23fff)
 ![GitHub](https://img.shields.io/github/license/sandervonk/CALclock)
 
-Shows Google Calendar events on a LED circle incorporated in a clock faceplate.
+CALclock runs on an Espressif EPS32 microcontroller and shows upcoming events on a circle of RGB LEDs incorporated into the faceplate of a clock.
 
-It can be used as anything from a decorative/interactive art piece to a normal clock that can remind you of upcoming appointments in a fun and cleanly designed way. I used this to remind me of upcoming appointments once thatschool moved online.
+It can be used as anything from a decorative/interactive art piece to just a normal clock (powered or unpowered) that reminds you of upcoming appointments in a fun and sleek way. I've been using it to remind me of upcoming appointments since school moved online.
 
 ![Backward facing glass clock with LED circle](media/forward_facing_250px.jpg) ![Forward facing glass clock with LED circle](media/backward_facing_250px.jpg)
 
@@ -23,7 +23,7 @@ It can be used as anything from a decorative/interactive art piece to a normal c
 
 ## Hardware
 
-Two approaches can be used when deciding the look of you clock. One of which is to have the ring fully visible, with the other being to use the leds as an artsy-backlight.
+The clock's lighting can be used in several ways, one of which is to have the ring fully visible, or alternativly, you can use the LEDs as an artsy backlight.
 
 ![Internals of Backward facing glass clock with LED circle](media/forward_facing_int_250px.jpg) ![Internals of Forward facing glass clock with LED circle](media/backward_facing_int_250px.jpg)
 
@@ -41,7 +41,7 @@ Two approaches can be used when deciding the look of you clock. One of which is 
 
 ### Connect
 
-> :warning: **THIS PROJECT IS OFFERED AS IS. IF YOU USE IT YOU ASSUME ALL RISKS. NO WARRENTIES.**
+> :warning: **THIS PROJECT IS OFFERED AS IS. IF YOU USE IT YOU ASSUME ALL RISKS. NO WARRANTIES.**
 
 Connect the 5 Volt adapter to the ESP32 and LED strip.
 
@@ -51,11 +51,11 @@ Connect the data from the ESP32 module to the LED circle as shown below.
 |:-------------|:---------------|
 | `GPIO#18`    | WS2812 DATA-IN |
 
-The `DATA-IN` of the LED circle should be driven with TTL signal levels, but we seem to get away with using the 3.3 Volt output from ESP32 in series with a 470 Ohms resistor. We didn't notice a diffeence when using a level shifter.
+The `DATA-IN` of the LED circle should be driven with TTL signal levels, but we seem to be able to get away with using the 3.3 Volt output from ESP32 in series with a 470 Ohms resistor. There was no decernable difference when using a level shifter.
 
 ## Software
 
-Clone the repository and its submodules to a local directory. The `--recursive` flag automatically initializes and updates the submodules in the repository.
+First, clone the repository and its submodules to a local directory. The `--recursive` flag automatically initializes and updates the submodules in the repository.
 
 ```bash
 git clone --recursive https://github.com/sandervonk/CALclock.git
@@ -66,23 +66,23 @@ or using `ssh`
 git clone --recursive git@github.com:sandervonk/CALclock.git
 ```
 
-From within Microsoft Visual Code (VScode), add the [Microsoft's C/C++ extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools). Then add the [Espressif IDF extension](https://marketplace.visualstudio.com/items?itemName=espressif.esp-idf-extension) and follow its configuration to install ESP-IDF 4.4.
+Then, from within Microsoft Visual Code (VSCode), add the [Microsoft's C/C++ extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools) and the [Espressif IDF extension](https://marketplace.visualstudio.com/items?itemName=espressif.esp-idf-extension) and follow its configuration to install ESP-IDF 4.4.
 
 ### Google Apps Script
 
 The software is a symbiosis between [Google Apps Script](https://developers.google.com/apps-script/guides/web) and firmware running on the ESP32. The script reads events from your Google Calendar and presents them as JSON to the ESP32 device.
 
 To create the Web app:
-  - Create a new project on [script.google.com](https://script.google.com);
-  - Rename the project to e.g. `CALclock-doGet`
-  - Copy and paste the code from `script\Code.gs`
+  - Create a new project at [script.google.com](https://script.google.com);
+  - Rename the project to some thing meaningful, for example, `CALclock-doGet`
+  - Copy and paste the code from `script\Code.gs` into the script
   - Add the `Google Calendar API` service .
-  - Select the function `test` and click `Debug`. This will ask for permissions. Don't expect output.
+  - Select the function `test` and click `Debug`. This will ask for permissions. Don't expect any output just yet.
   - Click `Deploy` and chose `New deployment`, chose
     - Service tye = `Web app`
     - Execute as = `Me`
-    - Who has access = `Anyone`, make sure you understand what the script does!
-    - Copy the Web app URL to the clipboard
+    - Who has access = `Anyone` (make sure you understand what the script does!)
+    - Copy the URL of the web app to your clipboard
 
 Open the URL in a web browser. You should get a reply like
 ```json
@@ -102,9 +102,9 @@ Open the URL in a web browser. You should get a reply like
 }
 ```
 
-Now, copy the `clock/main/Kconfig.example` to `clock/main/Kconfig` and paste the URL that ends in `/exec` to `clock/main/Kconfig` under `CLOCK_GAS_CALENDAR_URL`.
+Now, copy the `clock/main/Kconfig.example` to `clock/main/Kconfig` and paste the URL that ends in `/exec` into `clock/main/Kconfig` under `CLOCK_GAS_CALENDAR_URL`.
 
-As we see in the next sections, the ESP32 does a `HTTP GET` on this URL. That way it retrieves a list of upcoming events from your calendar, and update the LEDs accordingly.
+As we see in the next sections, the ESP32 does a `HTTP GET` on this URL. This allows it to retrieve a list of upcoming events from your calendar, and update the LEDs accordingly.
 
 ### ESP32 Device
 
@@ -130,11 +130,11 @@ To host your own `clock` image, you will need to place it on your LAN or on the 
 
 > To use HTTPS, you will need to add the server's public certificate to `clock/components/ota_update_task/CMakelists.txt`, and uncomment some lines in `ota_update_task.c` with `server_cert_pem`.
 
-From VScode:
+From VSCode:
 
   * Open the `CALclock/clock` folder (`File > Open`).
   * Connect your ESP32 module, and select the serial port using `ctrl-e p`.
-  * Edit the SDK configuration (`ctrl-e g`) and scroll down to CALclock and specify your "Firmware upgrade url endpoint" (e.g. http://host.domain/path/to/clock.bin).
+  * Edit the SDK configuration (`ctrl-e g`) and scroll down to CALclock and specify your "Firmware upgrade URL endpoint" (e.g. http://host.domain/path/to/clock.bin).
   * Start the build cycle using `ctrl-e b`.
   * Upload `CALclock/clock/build/clock.bin` to your site.
 
@@ -151,7 +151,7 @@ From VScode:
   * Open the `CALclock/factory` folder.
   * Connect your ESP32 module, and select the serial port using `ctrl-e p`.
   * Erase the NVRAM using `ctrl-e r`.
-  * If you built and host your own `clock` image, you need to specify the path by editing the SDK configuration (`ctrl-e g`) and scroll down to CALclock and specify your "Firmware upgrade url endpoint" (e.g. http://host.domain/path/clock.bin).
+  * If you build and host your own `clock` image, you need to specify the path by editing the SDK configuration (`ctrl-e g`) and scroll down to CALclock and specify your "Firmware upgrade url endpoint" (e.g. http://host.domain/path/clock.bin).
   * Start the build-upload-monitor cycle using `ctrl-e d`.
 
 Using an Android phone:
@@ -229,7 +229,7 @@ We love to hear from you. Please use the Github discussions to provide feedback.
 
 
 
-## OLD REMOVE !!
+## REMOVE OLD !!
 
 ((OLD To give the script the necessary permissions, we need to switch it from /default/ GCP (Apps Script–managed Cloud Platform project) to a /standard/ GCP project. Then give it permissions to the Calendar API and access your domain.
   - in [Google Script](https://script.google.com/) > Resources > Cloud Platform project > associate with (new) Cloud project number
