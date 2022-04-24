@@ -76,7 +76,7 @@ To create the Web app:
   - Create a new project on [script.google.com](https://script.google.com);
   - Rename the project to e.g. `CALclock-doGet`
   - Copy and paste the code from `script\Code.gs`
-  - Add the `Calendar API` service .
+  - Add the `Google Calendar API` service .
   - Select the function `test` and click `Debug`. This will ask for permissions. Don't expect output.
   - Click `Deploy` and chose `New deployment`, chose
     - Service tye = `Web app`
@@ -92,11 +92,11 @@ Open the URL in a web browser. You should get a reply like
     "events": [
         { 
             "start": "2022-04-20 10:55:00",
-            "end": "2022-04-20 15::45:00"
+            "end": "2022-04-20 15:45:00"
         },
         { 
             "start": "2022-04-20 15:55:00",
-            "end": "2022-04-20 17::15:00"
+            "end": "2022-04-20 17:15:00"
         }
     ]
 }
