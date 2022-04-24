@@ -4,24 +4,24 @@
 ![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/sandervonk/CALclock?include_prereleases&logo=DocuSign&logoColor=%23fff)
 ![GitHub](https://img.shields.io/github/license/sandervonk/CALclock)
 
-The CALclock runs on an Espressif EPS32 microcontroller and shows upcoming events on a LED circle incorporated in a clock faceplate.
+CALclock runs on an Espressif EPS32 microcontroller and shows upcoming events on a circle of RGB LEDs incorporated into the faceplate of a clock.
 
-It can be used as anything from a decorative/interactive art piece to a normal clock that can remind you of upcoming appointments in a fun and cleanly designed way.
+It can be used as anything from a decorative/interactive art piece to just a normal clock (powered or unpowered) that reminds you of upcoming appointments in a fun and sleek way.
 
-I used this to remind me of upcoming appointments once thatschool moved online.
+I've been using it to remind me of upcoming appointments since school moved online.
 
 ![Backward facing glass clock with LED circle](media/forward_facing_250px.jpg)
 ![Forward facing glass clock with LED circle](media/backward_facing_250px.jpg)
 
 ## Features:
 
-  - [x] Shows calendar events in different colors using an LED circle placed behind the faceplate of a clock.
-  - [x] Push notifications for timely updates to calendar changes. [^1]
+  - [x] Shows calendar events in different colors using an circle of RGB LEDs placed behind the faceplate of a clock.
+  - [x] Integrates push notifications update to calendar changes in a timely yet efficient manner. [^1]
   - [x] Over-the-air (OTA) updates [^1]
   - [x] WiFi provisioning using phone app [^1]
   - [x] Remote restart, and version information (using MQTT)
   - [x] Core dump over MQTT to aid debugging [^1]
-  - [x] Open source!
+  - [x] Fully open source!
 
 [^1]: Available with the full install as described in [`FULL_INSTALL.md`](FULL_INSTALL.md)
 
@@ -29,7 +29,7 @@ The full fledged project installation method is described in the [`FULL_INSTALL.
 
 ## Parts
 
-Two approaches can be used when deciding the look of you clock. One of which is to have the ring fully visible, with the other being to use the leds as an artsy-backlight.
+Two approaches can be used when deciding the look of your clock; one of which is to have the ring fully visible, with the other being to use the leds as an artsy-backlight that gives a slightly less accurate depiction of event times.
 
 ![Internals of Backward facing glass clock with LED circle](media/forward_facing_int_250px.jpg)
 ![Internals of Forward facing glass clock with LED circle](media/backward_facing_int_250px.jpg)
@@ -48,7 +48,7 @@ The Data-in of the LED circle should be driven with 5V +/- 0.5V, but we seem to 
 
 ## Connect
 
-> :warning: **THIS PROJECT IS OFFERED AS IS. IF YOU USE IT YOU ASSUME ALL RISKS. NO WARRENTIES.**
+> :warning: **THIS PROJECT IS OFFERED AS IS. IF YOU USE IT YOU ASSUME ALL RISKS. NO WARRANTIES.**
 
 Connect the 5 Volt adapter to the ESP32 and LED strip. Connect the data from the ESP32 module to the LED circle as shown below. 
 
