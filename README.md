@@ -23,17 +23,23 @@ Two approaches can be used when deciding the look of you clock. One of which is 
 
 ![Internals of Backward facing glass clock with LED circle](media/forward_facing_int_250px.jpg) ![Internals of Forward facing glass clock with LED circle](media/backward_facing_int_250px.jpg)
 
-### Parts
+### Bill of materials
 
-- [ ] RGB LED Pixel Ring containing 60 WS2812B SMD5050 addressable LEDs (e.g. "Chinly Addressable 60 Pixel LED Ring"). These WS2812B pixels are 5V, and draw about 60 mA each at full brightness. If you plan to use it in a bedroom, you probably want less bright LEDS such as WS2812 (without the "B").
-- [ ] ESP32 board with 4 MByte flash memory, such as [ESP32-DevKitC-VB](https://www.espressif.com/en/products/devkits/esp32-devkitc/overview), LOLIN32 or MELIFE ESP32.
-- [ ] 5 Volt, 3 Amp power adapter
-- [ ] Capacitor (470 uF / 16V)
-- [ ] Resistor (470 Ohm)
-- [ ] Analog clock with glass face plate (e.g. Tempus TC6065S Wall Clock with Glass Metal Frame or a Selko 11" Brushed Metal Wall Clock)
-- [ ] Optional frosting spray (e.g. Rust-Oleum Frosted Glass Spray Paint)
-- [ ] Glass glue (e.g. Loctite Glass Glue)
-- [ ] Molex 2 pin connector set
+| Name          | Description                                                       | Sugggested mfr/part#       |
+|---------------|-------------------------------------------------------------------|----------------------------|
+| LEDRING       | RGB LED Pixel Ring, WS8212B, 5 V, 172 mm outer diameter           | [RGB LED Pixel Ring ws8212b](https://www.alibaba.com/product-detail/High-Quality-RGB-LED-Pixel-Ring_1600131760023.html?spm=a2700.themePage.5238101001221.3.75bf233dO1Kn2w)
+| ESP32DEV      | ESP32 dev board with &ge;4 MByte flash memory                     | [ESP32-DevKitC-VB](https://www.espressif.com/en/products/devkits/esp32-devkitc/overview) 
+| ADAPTER       | Power adapter, 5 Volt / 3 A                                       | [Tempus TC6065S Wall Clock]()
+| C1            | Elrolytic Capacitor, 470 &micro;F / 16V, radial                   | [Würth 860010372004](https://www.digikey.com/en/products/detail/w%C3%BCrth-elektronik/860010372004/5728553)
+| R1            | Resistor, 470 &ohm;, 1/4 W, 5%, through hole                      | [Yageo CFR-25JT-52-470R](https://www.digikey.com/en/products/detail/yageo/CFR-25JT-52-470R/13921230)
+| CLOCK         | Analog clock with glass face plate                                | [Tempus TC6065S](https://www.amazon.com/Tempus%C2%AE-TC6065S-Quartz-Movement-Silver/dp/B00VSYX97S/ref=asc_df_B00VSYX97S/)
+| FROSTSPRAY    | Optional frosting spray                                           | [Rust-Oleum Frosted Glass Spray Paint](https://www.amazon.com/Rust-Oleum-1903830-Frosted-Glass-Spray/dp/B0009XCKBA/ref=sr_1_2)
+| 
+| GLUE          | Glass glue                                                        | [Loctite Glass Glue](https://www.amazon.com/Loctite-Super-2-Gram-Tubes-1399965/dp/B0041NTBZM/ref=sr_1_3)
+| CONNECTOR     | Connector set, 2 position, 18-24 AWG                              | [MOLEX Mini-Fit Jr](https://www.amazon.com/Molex-Connector-Matched-18-24-Mini-Fit/dp/B074M1RZHX)
+
+The LEDRING contains 60 WS2812B SMD5050 addressable LEDs. Each pixel draws about 60 mA each at full brightness. If you plan to use it in a bedroom, you probably want less bright LEDS such as WS2812  (without the "B").
+
 
 ### Connect
 
