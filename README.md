@@ -22,39 +22,37 @@ I've been using it to remind me of upcoming appointments since school moved onli
 
 ## Hardware
 
+> :warning: **THIS PROJECT IS OFFERED AS IS. IF YOU USE IT YOU ASSUME ALL RISKS. NO WARRENTIES.**
+
 Two approaches can be used when deciding the look of your clock; one of which is to have the ring fully visible, with the other being to use the leds as an artsy-backlight that gives a slightly less accurate depiction of event times.
 
 ![Internals of Backward facing glass clock with LED circle](media/forward_facing_int_250px.jpg) ![Internals of Forward facing glass clock with LED circle](media/backward_facing_int_250px.jpg)
+
+Technically, the `DATA-IN` of the LED circle should be driven with TTL signal levels, but we seem to get away with using the 3.3 Volt output from ESP32 in series with a 470 Ohms resistor. We didn't notice a diffeence when using a level shifter.
+
+### Schematic
+
+The 5 Volt power adapter connects to the micro USB port on the ESP32 module, and to the LED strip.
+
+![Schematic](hardware/CALclock-r1.svg)
+
 
 ### Bill of materials
 
 | Name          | Description                                                       | Sugggested mfr/part#       |
 |---------------|-------------------------------------------------------------------|----------------------------|
-| LEDRING       | RGB LED Pixel Ring, WS8212B, 5 V, 172 mm outer diameter           | [RGB LED Pixel Ring ws8212b](https://www.alibaba.com/product-detail/High-Quality-RGB-LED-Pixel-Ring_1600131760023.html?spm=a2700.themePage.5238101001221.3.75bf233dO1Kn2w)
-| ESP32DEV      | ESP32 dev board with &ge;4 MByte flash memory                     | [ESP32-DevKitC-VB](https://www.espressif.com/en/products/devkits/esp32-devkitc/overview) 
+| CLOCK         | Analog clock with glass face plate                                | [Tempus TC6065S](https://www.amazon.com/Tempus%C2%AE-TC6065S-Quartz-Movement-Silver/dp/B00VSYX97S/ref=asc_df_B00VSYX97S/)
+| PCB1          | Espressif WROOM32 development board, 4MB flash                    | [LOLIN-D32](https://www.aliexpress.com/item/32808551116.html) or [ESP32-DevKitC-VB](https://www.espressif.com/en/products/devkits/esp32-devkitc/overview)
+| PCB2          | RGB LED Pixel Ring, WS2812B, 5 V, 172 mm outer diameter           | [RGB LED pixel ring ws8212b](https://www.alibaba.com/product-detail/High-Quality-RGB-LED-Pixel-Ring_1600131760023.html?spm=a2700.themePage.5238101001221.3.75bf233dO1Kn2w)
 | ADAPTER       | Power adapter, 5 Volt / 3 A                                       | [Tempus TC6065S Wall Clock]()
 | C1            | Elrolytic Capacitor, 470 &micro;F / 16V, radial                   | [Würth 860010372004](https://www.digikey.com/en/products/detail/w%C3%BCrth-elektronik/860010372004/5728553)
 | R1            | Resistor, 470 &ohm;, 1/4 W, 5%, through hole                      | [Yageo CFR-25JT-52-470R](https://www.digikey.com/en/products/detail/yageo/CFR-25JT-52-470R/13921230)
-| CLOCK         | Analog clock with glass face plate                                | [Tempus TC6065S](https://www.amazon.com/Tempus%C2%AE-TC6065S-Quartz-Movement-Silver/dp/B00VSYX97S/ref=asc_df_B00VSYX97S/)
-| FROSTSPRAY    | Optional frosting spray                                           | [Rust-Oleum Frosted Glass Spray Paint](https://www.amazon.com/Rust-Oleum-1903830-Frosted-Glass-Spray/dp/B0009XCKBA/ref=sr_1_2)
-| 
+| SRAY          | Optional frosting spray                                           | [Rust-Oleum frosted glass spray](https://www.amazon.com/Rust-Oleum-1903830-Frosted-Glass-Spray/dp/B0009XCKBA/ref=sr_1_2)
 | GLUE          | Glass glue                                                        | [Loctite Glass Glue](https://www.amazon.com/Loctite-Super-2-Gram-Tubes-1399965/dp/B0041NTBZM/ref=sr_1_3)
 | CONNECTOR     | Connector set, 2 position, 18-24 AWG                              | [MOLEX Mini-Fit Jr](https://www.amazon.com/Molex-Connector-Matched-18-24-Mini-Fit/dp/B074M1RZHX)
 
-The LEDRING contains 60 WS2812B SMD5050 addressable LEDs. Each pixel draws about 60 mA each at full brightness. If you plan to use it in a bedroom, you probably want less bright LEDS such as WS2812  (without the "B").
+The LED ring, `PCB2`, contains 60 WS2812B addressable LEDs. Each pixel draws about 60 mA at full brightness. If you plan to use it in a bedroom, you probably want less bright LEDS such as WS2812  (without the "B").
 
-
-### Connect
-
-> :warning: **THIS PROJECT IS OFFERED AS IS. IF YOU USE IT YOU ASSUME ALL RISKS. NO WARRENTIES.**
-
-Connect the 5 Volt adapter to the ESP32 and LED strip. Connect the data from the ESP32 module to the LED circle as shown below. 
-
-| ESP32 module | LED circle     |
-|:-------------|:---------------|
-| `GPIO#18`    | WS2812 DATA-IN |
-
-The `DATA-IN` of the LED circle should be driven with TTL signal levels, but we seem to get away with using the 3.3 Volt output from ESP32 in series with a 470 Ohms resistor. We didn't notice a diffeence when using a level shifter.
 
 ## Software
 
