@@ -1,6 +1,6 @@
 {
     "name": "calclock",
-    "version": "1.1.0",
+    "version": "1.1",
     "description": "CALclock shows events from Google Calendar on LED circle",
     "dependencies": {
       "esp-idf": "4.4"
