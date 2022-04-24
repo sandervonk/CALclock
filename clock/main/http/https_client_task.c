@@ -1,10 +1,22 @@
 /**
  * @brief Read calender events from Google Apps script and forward them as messages
  *
- * CLOSED SOURCE, NOT FOR PUBLIC RELEASE
- * (c) Copyright 2020, Sander and Coert Vonk
- * All rights reserved. Use of copyright notice does not imply publication.
- * All text above must be included in any redistribution
+ * © Copyright 2016, 2022, Sander and Coert Vonk
+ * 
+ * This file is part of CALclock.
+ * 
+ * CALclock is free software: you can redistribute it and/or modify it under the terms of
+ * the GNU General Public License as published by the Free Software Foundation, either
+ * version 3 of the License, or (at your option) any later version.
+ * 
+ * CALclock is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License along with CALclock. 
+ * If not, see <https://www.gnu.org/licenses/>.
+ * 
+ * SPDX-License-Identifier: GPL-3.0-or-later
  **/
 
 #include <string.h>
@@ -115,7 +127,6 @@ https_client_task(void * ipc_void)
             if (status == 200) {
                 _data[_data_len] = '\0';
                 ESP_LOGI(TAG, "rx \"%s\"", _data);
-                sendToMqtt(TO_MQTT_MSGTYPE_DBG, _data, ipc);
                 sendToDisplay(TO_DISPLAY_MSGTYPE_JSON, _data, ipc);
                 _json2pushId(_data, pushId, pushId_len);
             }

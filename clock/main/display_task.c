@@ -1,10 +1,22 @@
 /**
-  * @brief display_task, received JSON, parses and drive LED circle accordingly
-  *
-  * CLOSED SOURCE, NOT FOR PUBLIC RELEASE
-  * (c) Copyright 2020, Sander and Coert Vonk
-  * All rights reserved. Use of copyright notice does not imply publication.
-  * All text above must be included in any redistribution
+ * @brief display_task, received JSON, parses and drive LED circle accordingly
+ *
+ * © Copyright 2016, 2022, Sander and Coert Vonk
+ * 
+ * This file is part of CALclock.
+ * 
+ * CALclock is free software: you can redistribute it and/or modify it under the terms of
+ * the GNU General Public License as published by the Free Software Foundation, either
+ * version 3 of the License, or (at your option) any later version.
+ * 
+ * CALclock is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License along with CALclock. 
+ * If not, see <https://www.gnu.org/licenses/>.
+ * 
+ * SPDX-License-Identifier: GPL-3.0-or-later
  **/
 
 #include <sdkconfig.h>
@@ -212,16 +224,7 @@ _addEventToStrip(event_t const * const event, time_t const now, uint * const hue
         uint const nowPxl = round(hrsFromToc * pxlsPerHr);
         uint const startPxl = round((hrsFromToc + MAX(startsInHr, 0)) * pxlsPerHr);
         uint const endPxl = round((hrsFromToc + MIN(endsInHr, hrsOnClock)) * pxlsPerHr);
-#if DEBUG
-        char * data;
-        assert(asprintf(&data, "%04d-%02d-%02d %02d:%02d (in %5.2fh) to %04d-%02d-%02d %02d:%02d (in %5.2fh) => %2u to %2u",
-                        startTm.tm_year + 1900, startTm.tm_mon + 1, startTm.tm_mday, startTm.tm_hour, startTm.tm_min, startsInHr,
-                        endTm.tm_year + 1900, endTm.tm_mon + 1, endTm.tm_mday, endTm.tm_hour, endTm.tm_min, endsInHr,
-                        startPxl, endPxl) >= 0);
-        ESP_LOGI(TAG, "\"%s\"", data);
-        sendToMqtt(TO_MQTT_MSGTYPE_DBG, data, _ipc);
-        free(data);
-#endif
+
         for (uint pp = startPxl; pp < endPxl; pp++) {
             uint const minBrightness = 1;
             uint const maxBrightness = flipped ? 50 : 2;
@@ -259,7 +262,7 @@ display_task(void * ipc_void)
 
     uint len = 0;
     time_t now;
-    time_t const loopInSec = 60;  // how often the while-loop runs [msec]
+    time_t const loopInSec = 60;  // how often the while-loop runs [sec]
     bool const flipped = strcmp(_ipc->dev.name, "calclock-2") == 0;
     while (1) {
 

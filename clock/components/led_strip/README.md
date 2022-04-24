@@ -1,5 +1,7 @@
 # LED Strip Component
 
+Source: [https://github.com/espressif/esp-idf](https://github.com/espressif/esp-idf/blob/master/examples/common_components/led_strip)
+
 This directory contains an implementation for addressable LEDs using the RMT peripheral.
 
 It's compatible with:

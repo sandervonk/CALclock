@@ -5,3 +5,4 @@ sdkconfig
 **/Kconfig
 clock/main/Kconfig
 factory/main/Kconfig
+**/.vscode/

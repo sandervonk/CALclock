@@ -1,0 +1,14 @@
+{
+    "name": "calclock",
+    "version": "1.1",
+    "description": "CALclock shows events from Google Calendar on LED circle",
+    "dependencies": {
+      "esp-idf": "4.4"
+    },
+    "repository": {
+      "type": "git",
+      "url": "https://github.com/sandervonk/CALclock"
+    },
+    "author": "Sander Vonk"
+  }
+  

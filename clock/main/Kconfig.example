@@ -31,18 +31,6 @@ menu "CALclock"
             Public URL of the Google Apps script that supplies JSON of the
             calendar events.
 
-    config CALCLOCK_MQTT_DATA_TOPIC
-        string "MQTT data topic"
-        default "calclock/data"
-        help
-            MQTT topic for data messages from the ESP32
-
-    config CALCLOCK_MQTT_CTRL_TOPIC
-        string "MQTT control topic"
-        default "calclock/ctrl"
-        help
-            MQTT topic for ctrl messages to the ESP32
-
     config CALCLOCK_HARDCODED_WIFI_CREDENTIALS
         bool "Use hardcoded Wi-Fi credentials"
         default n
@@ -62,18 +50,5 @@ menu "CALclock"
         depends on CALCLOCK_HARDCODED_WIFI_CREDENTIALS
         help
             WiFi password (WPA or WPA2).
-
-    config CALCLOCK_HARDCODED_MQTT_CREDENTIALS
-        bool "Use hardcoded MQTT URL"
-        default n
-        help
-            Use a hardcoded MQTT credentials. Defaults to n for BLE provisioning.
-            
-    config CALCLOCK_HARDCODED_MQTT_URL
-        string "Hardcoded MQTT broker url endpoint"
-        default "mqtt://mqtt:passwd@host.domain:1883"
-        depends on CALCLOCK_HARDCODED_MQTT_CREDENTIALS
-        help
-            Hardcoded MQTT_URL. E.g. mqtt://mqtt:passwd@host.domain:1883.        
         
 endmenu

@@ -1,5 +1,5 @@
 // src: https://github.com/espressif/esp-idf/blob/master/examples/common_components/led_strip/led_strip_rmt_ws2812.c
-
+//
 // Copyright 2019 Espressif Systems (Shanghai) PTE LTD
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
