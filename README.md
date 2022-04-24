@@ -2,6 +2,7 @@
 
 [![GitHub Discussions](https://img.shields.io/github/discussions/sandervonk/CALclock)](https://github.com/sandervonk/CALclock/discussions)
 ![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/sandervonk/CALclock?include_prereleases&logo=DocuSign&logoColor=%23fff)
+![GitHub package.json dependency version (prod)](https://img.shields.io/github/package-json/dependency-version/cvonk/CALalarm/esp-idf)
 ![GitHub](https://img.shields.io/github/license/sandervonk/CALclock)
 
 CALclock runs on an Espressif EPS32 microcontroller and shows upcoming events on a circle of RGB LEDs incorporated into the faceplate of a clock.
@@ -10,76 +11,52 @@ It can be used as anything from a decorative/interactive art piece to just a nor
 
 I've been using it to remind me of upcoming appointments since school moved online.
 
-![Backward facing glass clock with LED circle](media/forward_facing_250px.jpg)
-![Forward facing glass clock with LED circle](media/backward_facing_250px.jpg)
+![Backward facing glass clock with LED circle](media/forward_facing_250px.jpg) ![Forward facing glass clock with LED circle](media/backward_facing_250px.jpg)
 
 ## Features:
 
-  - [x] Shows calendar events in different colors using an circle of RGB LEDs placed behind the faceplate of a clock.
-  - [x] Integrates push notifications update to calendar changes in a timely yet efficient manner. [^1]
-  - [x] Over-the-air (OTA) updates [^1]
-  - [x] WiFi provisioning using phone app [^1]
-  - [x] Remote restart, and version information (using MQTT)
-  - [x] Core dump over MQTT to aid debugging [^1]
-  - [x] Fully open source!
+  - [x] Synchronizes with Google Calendar
+  - [x] Shows calendar events in different colors using an LED circle on a clock.
+  - [x] Push notifications for timely updates to calendar changes.
+  - [x] Open source!
 
-[^1]: Available with the full install as described in [`FULL_INSTALL.md`](FULL_INSTALL.md)
-
-The full fledged project installation method is described in the [`FULL_INSTALL.md`](FULL_INSTALL.md). Before you go down that road, you may want to give it a quick spin to see what it can do. The remainder of this README will walk you through this.
-
-## Parts
+## Hardware
 
 Two approaches can be used when deciding the look of your clock; one of which is to have the ring fully visible, with the other being to use the leds as an artsy-backlight that gives a slightly less accurate depiction of event times.
 
-![Internals of Backward facing glass clock with LED circle](media/forward_facing_int_250px.jpg)
-![Internals of Forward facing glass clock with LED circle](media/backward_facing_int_250px.jpg)
+![Internals of Backward facing glass clock with LED circle](media/forward_facing_int_250px.jpg) ![Internals of Forward facing glass clock with LED circle](media/backward_facing_int_250px.jpg)
 
-- [ ] RGB LED Pixel Ring containing 60 WS2812B SMD5050 addressable LEDs (e.g. "Chinly Addressable 60 Pixel LED Ring"). These WS2812B pixels are 5V, and draw about 60 mA each at full brightness. If you plan to use it in a bedroom, you probably want less bright LEDS such as WS2812 (without the "B").
-- [ ] ESP32 board with 4 MByte flash memory, such as [ESP32-DevKitC-VB](https://www.espressif.com/en/products/devkits/esp32-devkitc/overview), LOLIN32 or MELIFE ESP32.
-- [ ] 5 Volt, 3 Amp power adapter
-- [ ] Capacitor (470 uF / 16V)
-- [ ] Resistor (470 Ohm)
-- [ ] Analog clock with glass face plate (e.g. Tempus TC6065S Wall Clock with Glass Metal Frame or a Selko 11" Brushed Metal Wall Clock)
-- [ ] Optional frosting spray (e.g. Rust-Oleum Frosted Glass Spray Paint)
-- [ ] Glass glue (e.g. Loctite Glass Glue)
-- [ ] Molex 2 Pin Connectors
+### Bill of materials
 
-The Data-in of the LED circle should be driven with 5V +/- 0.5V, but we seem to get away with using the 3.3V output from ESP32 with a 470 Ohms resistor in series. We didn't notice a diffeence when using a level shifter.
+| Name          | Description                                                       | Sugggested mfr/part#       |
+|---------------|-------------------------------------------------------------------|----------------------------|
+| LEDRING       | RGB LED Pixel Ring, WS8212B, 5 V, 172 mm outer diameter           | [RGB LED Pixel Ring ws8212b](https://www.alibaba.com/product-detail/High-Quality-RGB-LED-Pixel-Ring_1600131760023.html?spm=a2700.themePage.5238101001221.3.75bf233dO1Kn2w)
+| ESP32DEV      | ESP32 dev board with &ge;4 MByte flash memory                     | [ESP32-DevKitC-VB](https://www.espressif.com/en/products/devkits/esp32-devkitc/overview) 
+| ADAPTER       | Power adapter, 5 Volt / 3 A                                       | [Tempus TC6065S Wall Clock]()
+| C1            | Elrolytic Capacitor, 470 &micro;F / 16V, radial                   | [Würth 860010372004](https://www.digikey.com/en/products/detail/w%C3%BCrth-elektronik/860010372004/5728553)
+| R1            | Resistor, 470 &ohm;, 1/4 W, 5%, through hole                      | [Yageo CFR-25JT-52-470R](https://www.digikey.com/en/products/detail/yageo/CFR-25JT-52-470R/13921230)
+| CLOCK         | Analog clock with glass face plate                                | [Tempus TC6065S](https://www.amazon.com/Tempus%C2%AE-TC6065S-Quartz-Movement-Silver/dp/B00VSYX97S/ref=asc_df_B00VSYX97S/)
+| FROSTSPRAY    | Optional frosting spray                                           | [Rust-Oleum Frosted Glass Spray Paint](https://www.amazon.com/Rust-Oleum-1903830-Frosted-Glass-Spray/dp/B0009XCKBA/ref=sr_1_2)
+| 
+| GLUE          | Glass glue                                                        | [Loctite Glass Glue](https://www.amazon.com/Loctite-Super-2-Gram-Tubes-1399965/dp/B0041NTBZM/ref=sr_1_3)
+| CONNECTOR     | Connector set, 2 position, 18-24 AWG                              | [MOLEX Mini-Fit Jr](https://www.amazon.com/Molex-Connector-Matched-18-24-Mini-Fit/dp/B074M1RZHX)
 
-## Connect
+The LEDRING contains 60 WS2812B SMD5050 addressable LEDs. Each pixel draws about 60 mA each at full brightness. If you plan to use it in a bedroom, you probably want less bright LEDS such as WS2812  (without the "B").
 
-> :warning: **THIS PROJECT IS OFFERED AS IS. IF YOU USE IT YOU ASSUME ALL RISKS. NO WARRANTIES.**
+
+### Connect
+
+> :warning: **THIS PROJECT IS OFFERED AS IS. IF YOU USE IT YOU ASSUME ALL RISKS. NO WARRENTIES.**
 
 Connect the 5 Volt adapter to the ESP32 and LED strip. Connect the data from the ESP32 module to the LED circle as shown below. 
 
-| ESP32 module | LED circle   |
-|:-------------|:-------------|
-| `GPIO#18`    | WS2812 DATA  |
+| ESP32 module | LED circle     |
+|:-------------|:---------------|
+| `GPIO#18`    | WS2812 DATA-IN |
 
-## Google Apps Script
+The `DATA-IN` of the LED circle should be driven with TTL signal levels, but we seem to get away with using the 3.3 Volt output from ESP32 in series with a 470 Ohms resistor. We didn't notice a diffeence when using a level shifter.
 
-The software is a symbiosis between a Google Apps Script and firmware running on the ESP32. The script reads events from your Google Calendar and presents them as JSON to the ESP32 device.
-
-The ESP32 microcontroller calls a [Google Apps Script](https://developers.google.com/apps-script/guides/web) that retrieve a list of upcoming events from your calendar and returns them as a JSON object. As we see later, the ESP32 will update the LEDs based on this JSON object.
-
-To create the Webapp:
-  - Create a new project on [script.google.com](https://script.google.com);
-  - Copy and paste the code from `script\Code.gs`
-  - Resources > Advanced Google Services > enable the `Calendar API`
-  - File > Manage Versions, Save New Version
-  - Publish > Deploy as web app
-      - version = select the version you just saved
-      - execute as = `Me`
-      - who has access = `anyone`, even anonymous (make sure you understand what the script does!)
-      - You will get a warning, because the app has not been verified by Google
-      - Once you clock `Deploy`, it presents you with two URLs
-          - one that ends in `/exec`, the published version, based on the version you chose.
-          - one that ends in `/dev`, the most recent saved code, intended for quick testing during development.
-      - Copy the `main/Kconfig.example` to `main/Kconfig` and copy the URL that ends in `/exec` to `main/Kconfig` under `CLOCK_GAS_CALENDAR_URL`.
-
-The script is more involved as needed because also supports *Push Notifications*.
-
-## Build
+## Software
 
 Clone the repository and its submodules to a local directory. The `--recursive` flag automatically initializes and updates the submodules in the repository,.
 
@@ -87,77 +64,76 @@ Clone the repository and its submodules to a local directory. The `--recursive` 
 git clone --recursive https://github.com/sandervonk/CALclock.git
 ```
 
-or using `ssh`
+If you haven't installed ESP-IDF, I recommend the Microsoft Visual Studio Code IDE (vscode).  From vscode, add the [Microsoft's C/C++ extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools). Then add the [Espressif IDF extension](https://marketplace.visualstudio.com/items?itemName=espressif.esp-idf-extension) and follow its configuration to install ESP-IDF 4.4.
+
+### Google Apps Script
+
+The software is a symbiosis between a Google Apps Script and firmware running on the ESP32. The script reads events from your Google Calendar and presents them as JSON to the ESP32 device.
+
+The ESP32 microcontroller calls a [Google Apps Script](https://developers.google.com/apps-script/guides/web) that retrieve a list of upcoming events from your calendar and returns them as a JSON object. As we see later, the ESP32 will update the LEDs based on this JSON object.
+
+To create the Web app:
+  - Create a new project on [script.google.com](https://script.google.com);
+  - Rename the project to e.g. `CALalarm-doGet`
+  - Copy and paste the code from `script\Code.js`
+  - Add the `Google Calendar API` service .
+  - Select the function `test` and click `Debug`. This will ask for permissions. There will not be any output.
+  - Click `Deploy` and chose `New deployment`, choose
+    - Service tye = `Web app`
+    - Execute as = `Me`
+    - Who has access = `Anyone`, make sure you understand what the script does!
+    - Copy the Web app URL to the clipboard
+
+Open the URL in a web browser. You should get a reply like
+```json
+{
+    "time": "2022-04-20 12:56:37",
+    "pushId": "some_id_or_not",
+    "events": [
+        { 
+            "start": "2022-04-20 10:55:00",
+            "end": "2022-04-20 15:45:00"
+        },
+        { 
+            "start": "2022-04-20 15:55:00",
+            "end": "2022-04-20 17:15:00"
+        }
+    ]
+}
+```
+
+Now, copy the `clock/main/Kconfig.example` to `clock/main/Kconfig` and paste the URL that ends in `/exec` to `clock/main/Kconfig` under `CALCLOCK_GAS_CALENDAR_URL`.
+
+As we see in the next sections, the ESP32 does a `HTTP GET` on this URL. That way it retrieves a list of upcoming events from your calendar, and update the LEDs accordingly.
+
+### ESP32 Device
+
+In `menuconfig`, scroll down to CALclock and select "Use hardcoded Wi-Fi credentials" and specify the SSID and password of your Wi-Fi access point.
+
 ```bash
-git clone --recursive git@github.com:sandervonk/CALclock.git
+git clone https://github.com/cvonk/CALclock.git
+cd CALclock/clock
+idf.py set-target esp32
+idf.py menuconfig
+idf.py flash
 ```
 
-From within Microsoft Visual Code (VScode), add the [Microsoft's C/C++ extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools). Then add the [Espressif IDF extension &ge;4.4](https://marketplace.visualstudio.com/items?itemName=espressif.esp-idf-extension). ESP-IDF will automatically start its configuration
+*Your clock is now functional!*
 
-From VScode:
+## Push notification from Google
 
-  * Change to the `CALclock/clock` folder.
-  * Connect your ESP32 module, and configure the device and COM port (press the F1-key and select "ESP-IDF: Device configurion")
-  * Edit the configuration (press the F1-key, select "ESP-IDF: SDK configuration editor" and scroll down to CALclock)
-      * Select "Use hardcoded Wi-Fi credentials" and specify the SSID and password of your Wi-Fi access point.
-      * If you have a MQTT broker set up, select "Use hardcoded MQTT URL" and specify the URL in the format `mqtt://username:passwd@host.domain:1883`
-  * Start the build-upload-monitor cycle (press the F1-key and select "ESP-IDF: Build, Flash and start a monitor on your device").
+Normally, the devices polls for changes in the Google Calendar every 2 minutes. We can improve this response time by pushing notifications from Google to your device. You should only enable this, if your router has a SSL certificate and you're familiar with configuring a reverse proxy on your router.
 
-The device will appear on your network segment as `calclock.local`. If MQTT is configured, it will publish MQTT messages.
+The [Push Notifications API](https://developers.google.com/calendar/v3/push) documentation says:
+> Allows you to improve the response time of your application. It allows you to eliminate the extra network and compute costs involved with polling resources to determine if they have changed. Whenever a watched resource changes, the Google Calendar API notifies your application. To use push notifications, you need to do three things:
+> 1. Set up your receiving URL, or "Webhook" callback receiver.
+> 2. Set up a notification channel for each resource endpoint you want to watch.
 
-## ESP32 Design
+To meet the first requirement, the push notification need to be able to traverse your access router to reach your ESP32 device. This requires a SSL certificate and a reverse proxy. This implies you need to configure a reverse proxy (Nginx or Pound) on your router.
 
-The functionality is divided into:
-- `HTTPS Client Task`, that polls the Google Apps Script for calendar events
-- `Display Task`, that uses the Remote Control Module on the ESP32 to drive the LED strip.
-- `HTTP POST Server`, to listen to push notifications from Google.
-- `OTA Task`, that check for updates upon reboot
-- `Reset Task`, when GPIO#0 is low for 3 seconds, it erases the WiFi credentials so that the board can be re-provisioned using your phone.
+Setup this reverse proxy so that it forwards HTTPS request from Google, as HTTP to the device. On the device, the module `http_post_server.c` is the endpoint for these push notifications. 
 
-The different parts communicate using FreeRTOS mailboxes.
-
-## Using
-
-To easily see what version of the software is running on the device, or what WiFi network it is connected to, the firmware contains a MQTT client.
-> MQTT stands for MQ Telemetry Transport. It is a publish/subscribe, extremely simple and lightweight messaging protocol, designed for constrained devices and low-bandwidth, high-latency or unreliable networks. [FAQ](https://mqtt.org/faq)
-
-One the clock is on the wall, we can still keep a finger on the pulse using
-  - Remote restart, and version information (using MQTT)
-  - Core dump over MQTT to aid debugging
-
-Control messages are:
-- `who`, can be used for device discovery when sent to the group topic
-- `restart`, to restart the ESP32 (and check for OTA updates)
-- `int N`, to change scan/adv interval to N milliseconds
-- `mode`, to report the current scan/adv mode and interval
-
-Control messages can be sent:
-- `calclock/ctrl`, a group topic that all devices listen to, or
-- `calclock/ctrl/DEVNAME`, only `DEVNAME` listens to this topic.
-
-Here `DEVNAME` is either a programmed device name, such as `esp32-1`, or `esp32_XXXX` where the `XXXX` are the last digits of the MAC address. Device names are assigned based on the BLE MAC address in `main/main.c`.
-
-Messages can be sent to a specific device, or the whole group:
-```
-mosquitto_pub -h {BROKER} -u {USERNAME} -P {PASSWORD} -t "calclock/ctrl/esp32-1" -m "who"
-mosquitto_pub -h {BROKER} -u {USERNAME} -P {PASSWORD} -t "calclock/ctrl" -m "who"
-```
-
-### MQTT
-
-Both replies to control messages and unsolicited data such as debug output and coredumps are reported using MQTT topic `calclock/data/SUBTOPIC/DEVNAME`.
-
-Subtopics are:
-- `who`, response to `who` control messages,
-- `restart`, response to `restart` control messages,
-- `dbg`, general debug messages, and
-- `coredump`, GDB ELF base64 encoded core dump.
-
-E.g. to listen to all data, use:
-```
-mosquitto_sub -h {BROKER} -u {USERNAME} -P {PASSWORD} -t "calclock/data/#" -v
-```
-where `#` is a the MQTT wildcard character.
+The second requirement is already met by the Google apps script that we installed earlier.
 
 ## Feedback
 
