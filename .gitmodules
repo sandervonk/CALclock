@@ -1,7 +1,3 @@
-[submodule "components/coredump_to_server"]
-	path = clock/components/coredump_to_server
-	url = https://github.com/cvonk/ESP32_coredump-to-server
-	branch = master
 [submodule "components/ota_update_task"]
 	path = clock/components/ota_update_task
 	url = https://github.com/cvonk/ESP32_ota-update-task.git
